@@ -1,21 +1,21 @@
-function component () {
-    const element = document.createElement('div')
-    element.innerHTML = 'Hello Webpack'
-    return element
-}
+import React from 'react'
+import ReactDom from 'react-dom/client'
 
-function button () {
-    const button = document.createElement('button')
-    button.innerHTML = 'Add Numbers'
-    button.addEventListener('click', function () {
+const app = document.getElementById('app')
+
+const root = ReactDom.createRoot(app)
+
+const App = React.lazy(() => import('./App.jsx'))
+
+root.render(<div>
+    <h1>Webpack</h1>
+    <App />
+    <button onClick={() => {
         import('./components/add').then(module => {
             const add = module.default
             add(5, 5)
         })
-    })
-    return button
-}
-
-const app = document.getElementById('app')
-app.appendChild(component())
-app.appendChild(button())
+        }}>
+            click me
+    </button>
+</div>)
