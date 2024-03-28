@@ -4,10 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     devtool: 'source-map',
     devServer: {
-        static: path.resolve(__dirname, 'dist'),
+        static: {
+            directory: path.resolve(__dirname, 'dist')
+        },
         open: true
     },
     output: {
@@ -26,6 +28,12 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(ts|tsx)$/,
+                include: path.resolve(__dirname, 'src'),
+                exclude: path.resolve(__dirname, 'node_modules'),
+                use: 'ts-loader'
+            },
+            {
                 test: /\.(js|jsx)$/,
                 include: path.resolve(__dirname, 'src'),
                 exclude: path.resolve(__dirname, 'node_modules'),
@@ -40,6 +48,9 @@ module.exports = {
                 }
             }
         ]
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
     optimization: {
         splitChunks: {
